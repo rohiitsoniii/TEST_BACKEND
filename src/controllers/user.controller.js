@@ -14,10 +14,10 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
         console.error("All fields are required")
         return next(new ApiError("All fields are required", 400));
     }
-    const user = await User.findOne({email});
-    if(user){
-        return next(new ApiError("User already exists", 400));
-    }
+    // const user = await User.findOne({email});
+    // if(user){
+    //     return next(new ApiError("User already exists", 400));
+    // }
    const hashPass = await bcrypt.hash(password, 10);
    const newUser = new User({
     firstname,
@@ -36,7 +36,7 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
    const token = jwt.sign({id:newUser._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
 
 
-   return res.status(200).json(new ApiResponse(200, "User created successfully", {token}))
+   return res.status(200).json(new ApiResponse(200, "User created successfully", {checkUser,token}))
 
 
 
