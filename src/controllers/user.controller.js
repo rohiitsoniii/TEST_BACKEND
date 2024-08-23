@@ -6,9 +6,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 
 
-const RegisterUser = asyncHandler(async (req, res, next) => {    
+const RegisterUser = asyncHandler(async (req, res, next) => {   
+    
+    console.log(req.body)
     const {firstname,lastname,gender,dob,email,password} = req.body
     if(!firstname  || !gender || !dob || !email || !password){
+        console.error("All fields are required")
         return next(new ApiError("All fields are required", 400));
     }
     const user = await User.findOne({email});
@@ -30,7 +33,7 @@ const RegisterUser = asyncHandler(async (req, res, next) => {
    if(!checkUser){
        return next(new ApiError("error while creating user", 400));
    }
-   const token = jwt.sign({id:newUser._id}, 123421211, {expiresIn: "1h"});
+   const token = jwt.sign({id:newUser._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
 
 
    return res.status(200).json(new ApiResponse(200, "User created successfully", {token}))
@@ -52,7 +55,7 @@ const LoginUser = asyncHandler(async (req, res, next) => {
     if(!checkPass){
         return next(new ApiError("Incorrect Password", 400));
     }
-    const token = jwt.sign({id:user._id}, 123421211, {expiresIn: "1h"});
+    const token = jwt.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn: "1h"});
     return res.status(200).json(new ApiResponse(200, "User logged in successfully", {token}))
 
 }

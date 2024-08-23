@@ -2,7 +2,6 @@ import express from "express";
 const app = express()
 import cors from "cors"
 import dotenv from "dotenv"
-import UserRouter from "./src/routes/user.routes.js";
 
 
 const corsOptions = {
@@ -10,7 +9,6 @@ const corsOptions = {
     credentials: true,
 }
 
-app.use("/user",UserRouter)
 
 app.use(cors(corsOptions))
 
@@ -26,6 +24,10 @@ app.use(express.urlencoded({
     limit: '50mb',
 }))
 app.use(express.static('public'))
+
+import UserRouter from "./src/routes/user.routes.js";
+
+app.use("/user",UserRouter)
 
 
 
