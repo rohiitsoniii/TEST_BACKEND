@@ -6,7 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 
 
-const RegisterUser = async (req, res, next) => {    
+const RegisterUser = asyncHandler(async (req, res, next) => {    
     const {firstname,lastname,gender,dob,email,password} = req.body
     if(!firstname  || !gender || !dob || !email || !password){
         return next(new ApiError("All fields are required", 400));
@@ -37,9 +37,9 @@ const RegisterUser = async (req, res, next) => {
 
 
 
-}
+})
 
-const LoginUser = async (req, res, next) => {    
+const LoginUser = asyncHandler(async (req, res, next) => {    
     const {email, password} = req.body
     if(!email || !password){
         return next(new ApiError("All fields are required", 400));
@@ -56,8 +56,8 @@ const LoginUser = async (req, res, next) => {
     return res.status(200).json(new ApiResponse(200, "User logged in successfully", {token}))
 
 }
-
-const ChnagePassword = async (req, res, next) => {
+)
+const ChnagePassword = asyncHandler(async (req, res, next) => {
     const user = req.user
 
     const {oldPassword, newPassword} = req.body
@@ -71,10 +71,10 @@ const ChnagePassword = async (req, res, next) => {
     const hashPass = await bcrypt.hash(newPassword, 10);
     await User.findByIdAndUpdate(user._id, {password:hashPass})
     return res.status(200).json(new ApiResponse(200, "Password changed successfully"))
-}
+})
 
 
-const UpdateDetails = async (req, res, next) => {
+const UpdateDetails = asyncHandler(async (req, res, next) => {
     const user = req.user
     const {firstname,lastname,gender,dob} = req.body
     if(!firstname || !lastname || !gender || !dob){
@@ -82,11 +82,11 @@ const UpdateDetails = async (req, res, next) => {
     }
     await User.findByIdAndUpdate(user._id, {firstname,lastname,gender,dob})
     return res.status(200).json(new ApiResponse(200, "Details updated successfully"))
-}
+})
 
-const checkConnection = async (req, res, next) => {
+const checkConnection = asyncHandler(async (req, res, next) => {
     return res.status(200).json("connected")
-}
+})
 
 
 
