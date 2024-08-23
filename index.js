@@ -10,7 +10,7 @@
 // also create a frontend with react JS
 
 
-import { app } from "./app.js";
+import app  from "./app.js";
 import { ConnectDb } from "./src/Db/index.js";
 
 const port = process.env.PORT || 8001

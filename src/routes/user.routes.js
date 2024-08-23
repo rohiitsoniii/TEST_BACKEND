@@ -8,7 +8,7 @@ router.post("/register", RegisterUser);
 router.post("/login", LoginUser);
 router.post("/changePass", verifyToken, ChnagePassword);
 router.post("/updateDetails", verifyToken, UpdateDetails);
-router.get("/check",checkConnection);
+router.route("/check").get(checkConnection);
 
 
 

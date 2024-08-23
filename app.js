@@ -2,11 +2,16 @@ import express from "express";
 const app = express()
 import cors from "cors"
 import dotenv from "dotenv"
+import UserRouter from "./src/routes/user.routes.js";
+
 
 const corsOptions = {
     origin: '*',
     credentials: true,
 }
+
+app.use("/user",UserRouter)
+
 app.use(cors(corsOptions))
 
 dotenv.config({
@@ -23,12 +28,10 @@ app.use(express.urlencoded({
 app.use(express.static('public'))
 
 
-import UserRouter from "./src/routes/user.routes.js";
 
-app.use("/user",UserRouter)
 
 app.get("/radhe", (req, res) => {
     res.send("Hello World")
 })
 
-export {app}
+export default app
